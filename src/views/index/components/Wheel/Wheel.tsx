@@ -146,13 +146,13 @@ export const Wheel = (props: WheelProps) => {
   });
 
   // it wll be called every time the user updates any data
-  const drawChart = (numberOfSlices: number) => {
+  const drawChart = (numberOfSlices: number, size: number) => {
     if (!canvas.current || !ctx) return;
 
     if (!slicesData) return;
 
     ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
-    drawPieChart(canvas, slicesData, numberOfSlices, wheelColors);
+    drawPieChart(canvas, slicesData, numberOfSlices, wheelColors, size);
   };
 
   // // set the canvas and draw the chart
@@ -187,18 +187,11 @@ export const Wheel = (props: WheelProps) => {
       window < 500 ? 0.8 : window < 700 ? 0.7 : window < 1000 ? 0.6 : 0.5;
 
     const trueWheelSize = Math.round(window * multiplyValue);
-    setCanvasContainerStyles({
-      width: `${trueWheelSize}px`,
-      height: `${trueWheelSize}px`,
-    });
+    setCanvasContainerStyles(trueWheelSize);
 
     debounce(() => {
       if (!canvas.current) return;
-
-      // canvas.current.height = trueWheelSize;
-      // canvas.current.width = trueWheelSize;
-
-      drawChart(slicesData.length);
+      drawChart(slicesData.length, trueWheelSize);
     });
   }
 
@@ -206,21 +199,21 @@ export const Wheel = (props: WheelProps) => {
   useEffect(() => {
     window.addEventListener("resize", ({ target }) => {
       const w = (target as Window).innerWidth;
-      resizeWheel(w, false);
+      resizeWheel(w, true);
     });
 
     return () => {
       window.removeEventListener("resize", ({ target }) => {
         const w = (target as Window).innerWidth;
-        resizeWheel(w, false);
+        resizeWheel(w, true);
       });
     };
-  }, [window.innerWidth]);
+  }, []);
 
   useEffect(() => {
     // re-draw the chart when the user updates the data
     if (slicesData || wheelColors) {
-      drawChart(slicesData.length);
+      drawChart(slicesData.length, canvas.current?.width || 530);
     }
   }, [slicesData, wheelColors]);
 
@@ -243,7 +236,7 @@ export const Wheel = (props: WheelProps) => {
     onUpdateWheelSpinning(true);
     if (lastChosenItem >= 0 && removeChosenName) {
       slicesData.splice(lastChosenItem, 1);
-      drawChart(numberOfSlices - 1);
+      drawChart(numberOfSlices - 1, canvas.current?.width || 530);
     }
 
     let startRotation = lastChosenItem * (360 / numberOfSlices) || 0;
