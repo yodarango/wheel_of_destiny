@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "../../../../lib/debounce";
 import { Dialog } from "../Dialog";
+import { playTickSound } from "./playTickSound";
+
+// styles
+import "./Wheel.scss";
 
 type WheelProps = {
   onUpdateWheelSpinning: (isWheelSpinning: boolean) => void; // to prevent multiple spins or data updates during
@@ -20,18 +24,20 @@ export const Wheel = (props: WheelProps) => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const ctx = canvas.current?.getContext("2d");
 
-  // draw pie chart function
+  const playTick = playTickSound;
 
+  // draw pie chart function
   function drawPieChart(
     canvas: React.RefObject<HTMLCanvasElement>,
     data: string[],
     numberOfSlices: number,
-    wheelColors: string[]
+    wheelColors: string[],
+    size: number = 530
   ) {
     if (canvas.current === null) return;
 
-    canvas.current.width = 530;
-    canvas.current.height = 530;
+    canvas.current.width = size;
+    canvas.current.height = size;
 
     const ctx: CanvasRenderingContext2D = canvas.current.getContext("2d")!;
 
@@ -131,65 +137,56 @@ export const Wheel = (props: WheelProps) => {
   }
 
   // local state
-  const [canvasContainerStyles, setCanvasContainerStyles] = useState<{
-    width: string;
-    height: string;
-  }>({
-    width: `530px`,
-    height: `530px`,
-  });
-
-  const [numberOfSlices, setNumberOfSlices] = useState(slicesData.length); // to get the area of each
+  const [canvasSize, setCanvasContainerStyles] = useState<number>(530);
 
   const [dialogData, setDialogData] = useState({
-    oncancel: () => {},
-    onOk: () => {},
     title: "",
     message: "",
     show: false,
   });
 
-  // sill be called every time the user updates any data
-  const drawChart = () => {
+  // it wll be called every time the user updates any data
+  const drawChart = (numberOfSlices: number) => {
     if (!canvas.current || !ctx) return;
 
-    if (!slicesData || numberOfSlices === 0) return;
+    if (!slicesData) return;
 
     ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
     drawPieChart(canvas, slicesData, numberOfSlices, wheelColors);
   };
 
-  // set the canvas and draw the chart
-  useEffect(() => {
-    if (!canvas.current) return;
-    const w = window.innerWidth;
-    const multiplyValue: number =
-      w < 500 ? 0.8 : w < 700 ? 0.7 : w < 1000 ? 0.6 : 0.5;
+  // // set the canvas and draw the chart
+  // useEffect(() => {
+  //   if (!canvas.current) return;
 
-    const trueWheelSize =
-      w * multiplyValue < 700 ? Math.round(w * multiplyValue) : 700;
+  //   const w = window.innerWidth;
+  //   const multiplyValue: number =
+  //     w < 500 ? 0.8 : w < 700 ? 0.7 : w < 1000 ? 0.6 : 0.5;
 
-    // update size of the canvas container
-    setCanvasContainerStyles({
-      width: `${trueWheelSize}px`,
-      height: `${trueWheelSize}px`,
-    });
+  //   const trueWheelSize =
+  //     w * multiplyValue < 700 ? Math.round(w * multiplyValue) : 700;
 
-    // update size of the canvas
-    canvas.current.width = trueWheelSize;
-    canvas.current.height = trueWheelSize;
+  //   // update size of the canvas container
+  //   setCanvasContainerStyles({
+  //     width: `${trueWheelSize}px`,
+  //     height: `${trueWheelSize}px`,
+  //   });
 
-    drawChart();
-  }, [canvas.current]);
+  //   // update size of the canvas
+  //   canvas.current.width = trueWheelSize;
+  //   canvas.current.height = trueWheelSize;
 
-  function resizeWheel(w: number, isInitialLoad: boolean = true) {
+  //   drawChart(slicesData.length);
+  // }, [canvas.current]);
+
+  function resizeWheel(window: number, isInitialLoad: boolean = true) {
     if (isInitialLoad) return;
-    if (w > 1400) return;
+    if (window > 1400) return;
 
     const multiplyValue: number =
-      w < 500 ? 0.8 : w < 700 ? 0.7 : w < 1000 ? 0.6 : 0.5;
+      window < 500 ? 0.8 : window < 700 ? 0.7 : window < 1000 ? 0.6 : 0.5;
 
-    const trueWheelSize = Math.round(w * multiplyValue);
+    const trueWheelSize = Math.round(window * multiplyValue);
     setCanvasContainerStyles({
       width: `${trueWheelSize}px`,
       height: `${trueWheelSize}px`,
@@ -198,33 +195,42 @@ export const Wheel = (props: WheelProps) => {
     debounce(() => {
       if (!canvas.current) return;
 
-      canvas.current.height = trueWheelSize;
-      canvas.current.width = trueWheelSize;
+      // canvas.current.height = trueWheelSize;
+      // canvas.current.width = trueWheelSize;
 
-      drawChart();
+      drawChart(slicesData.length);
     });
   }
 
-  // resize the wheel on window resize
+  // // resize the wheel on window resize
   useEffect(() => {
     window.addEventListener("resize", ({ target }) => {
       const w = (target as Window).innerWidth;
       resizeWheel(w, false);
     });
-  }, []);
+
+    return () => {
+      window.removeEventListener("resize", ({ target }) => {
+        const w = (target as Window).innerWidth;
+        resizeWheel(w, false);
+      });
+    };
+  }, [window.innerWidth]);
 
   useEffect(() => {
     // re-draw the chart when the user updates the data
     if (slicesData || wheelColors) {
-      setNumberOfSlices(slicesData.length);
-      drawChart();
+      drawChart(slicesData.length);
     }
   }, [slicesData, wheelColors]);
-  let lastChosenItem = -1; // the slice chosen in the last round
+
+  const [lastChosenItem, setLastChosenItem] = useState(-1); // the slice chosen in the last round
 
   function spinWheel(removeChosenName = false) {
     if (slicesData.length === 1) location.reload();
-    dialogData.show = false;
+
+    setDialogData({ ...dialogData, show: false });
+
     if (isWheelSpinning) {
       console.log(
         "%cYou cannot spin the wheel while it is in progress",
@@ -233,11 +239,11 @@ export const Wheel = (props: WheelProps) => {
       return;
     }
 
+    let numberOfSlices = slicesData.length;
     onUpdateWheelSpinning(true);
     if (lastChosenItem >= 0 && removeChosenName) {
       slicesData.splice(lastChosenItem, 1);
-      setNumberOfSlices(slicesData.length);
-      drawChart(); // Assuming drawChart is a function that redraws your chart
+      drawChart(numberOfSlices - 1);
     }
 
     let startRotation = lastChosenItem * (360 / numberOfSlices) || 0;
@@ -263,7 +269,7 @@ export const Wheel = (props: WheelProps) => {
           Math.floor(previousRotation / tickInterval) &&
         slicesData.length > 1
       ) {
-        playTickSound();
+        playTick();
       }
       previousRotation = currentRotation;
 
@@ -279,11 +285,9 @@ export const Wheel = (props: WheelProps) => {
           ) % slicesData.length;
         onUpdateWheelSpinning(false);
         if (slicesData.length > 1 && slicesData[selectedIndex] !== undefined) {
-          lastChosenItem = selectedIndex;
+          setLastChosenItem(selectedIndex);
 
           setDialogData({
-            oncancel: () => spinWheel(true),
-            onOk: () => spinWheel(false),
             title: `Congratulations ${slicesData[selectedIndex]}`,
             message: `Destiny has called your name`,
             show: true,
@@ -297,30 +301,15 @@ export const Wheel = (props: WheelProps) => {
     requestAnimationFrame(rotate);
   }
 
-  // tick sound
-  function playTickSound() {
-    const audioContext = new window.AudioContext();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(500, audioContext.currentTime); // Further reduced frequency for a lower sound
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Reduced volume for less noise
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
-  }
   return (
     <>
       {dialogData.show && (
         <Dialog
-          onClose={() => (dialogData.show = false)}
-          onCancel={dialogData.oncancel}
+          onClose={() => setDialogData({ ...dialogData, show: false })}
+          onCancel={() => spinWheel(true)}
+          onOk={() => spinWheel(false)}
           message={dialogData.message}
           title={dialogData.title}
-          onOk={dialogData.onOk}
         />
       )}
 
@@ -328,8 +317,8 @@ export const Wheel = (props: WheelProps) => {
         <div
           className='canvas-container-33kl__canvas d-flex align-items-center justify-content-center'
           style={{
-            height: canvasContainerStyles.height,
-            width: canvasContainerStyles.width,
+            height: canvasSize,
+            width: canvasSize,
           }}
         >
           <button

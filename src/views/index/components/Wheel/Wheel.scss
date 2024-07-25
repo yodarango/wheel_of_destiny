@@ -22,10 +22,15 @@
 
 .wheel-of-destiny-33kl__canvas-spin-btn {
   box-shadow: 0.25rem 0.25rem 0.75rem #1a17235b;
-  z-index: 2;
   border-radius: 50%;
   height: 10rem;
   width: 10rem;
+  z-index: 2;
+}
+
+canvas {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 800px) {
