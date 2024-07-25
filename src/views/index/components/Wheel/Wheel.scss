@@ -1,0 +1,41 @@
+.wheel-of-destiny-33kl__canvas-container {
+  top: 2rem;
+  padding: var(--dr-spacing-5) 0;
+  position: sticky;
+}
+
+.canvas-container-33kl__canvas {
+  position: sticky;
+  top: 1rem;
+}
+
+.wheel-of-destiny-33kl__canvas-tick {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-right: 50px solid var(--dr-delta);
+  border-bottom: 50px solid transparent;
+  position: absolute;
+  top: calc(50% - 50px);
+  right: 0;
+}
+
+.wheel-of-destiny-33kl__canvas-spin-btn {
+  box-shadow: 0.25rem 0.25rem 0.75rem #1a17235b;
+  z-index: 2;
+  border-radius: 50%;
+  height: 10rem;
+  width: 10rem;
+}
+
+@media (max-width: 800px) {
+  .wheel-of-destiny-33kl__canvas-spin-btn {
+    height: 7rem;
+    width: 7rem;
+  }
+
+  .wheel-of-destiny-33kl__canvas-container {
+    position: relative;
+    margin-bottom: 5rem;
+  }
+}

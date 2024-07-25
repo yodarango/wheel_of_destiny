@@ -1,0 +1,55 @@
+/* styles.css */
+.wheel-of-destiny-33kl__text-area {
+  resize: none;
+  border: 1px solid var(--dr-delta) !important;
+  height: 30rem;
+}
+
+.wheel-of-destiny-33kl__input_container {
+  max-width: 350px;
+  width: 100%;
+  padding-right: 0.4rem;
+  background-image: linear-gradient(-10deg, var(--dr-zeta), var(--dr-epsilon));
+}
+
+.wheel-of-destiny-33kl__input_container > div {
+  min-height: 100vh;
+}
+
+.colors-section_hex {
+  border-radius: 0.5em;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.colors-section_hex:hover {
+  cursor: pointer;
+  border: 0.1rem solid var(--dr-delta);
+}
+
+.colors-section_hex:active {
+  cursor: pointer;
+  border: 0.1rem solid var(--dr-success);
+}
+
+.colors-section_hex span {
+  height: 5rem;
+}
+
+.open-color-palette {
+  transform: rotate(90deg);
+  transition: transform 300ms ease;
+}
+
+@media (max-width: 800px) {
+  .wheel-of-destiny-33kl__input_container {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 0;
+    padding-top: 0.4rem;
+  }
+
+  .wheel-of-destiny-33kl__input_container > div {
+    min-height: unset;
+  }
+}

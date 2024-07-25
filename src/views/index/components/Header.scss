@@ -1,0 +1,61 @@
+/* styles.css */
+.wheel-of-destiny-33kl__container {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  margin: auto;
+}
+
+.wheel-of-destiny-33kl__dialog {
+  position: fixed;
+  max-width: 50rem;
+  width: 90%;
+  z-index: 5;
+}
+
+.dialog-33kl__close {
+  margin-left: calc(100% - 3rem);
+}
+
+.wheel-of-destiny-33kl__nav-bar {
+  background-image: linear-gradient(-10deg, var(--dr-zeta), var(--dr-epsilon));
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
+}
+
+.nav-bar-33kl__wheel-name {
+  text-transform: uppercase;
+}
+
+@media (max-width: 800px) {
+  .wheel-of-destiny-33kl__container {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+
+  .nav-bar__container {
+    flex-wrap: wrap;
+  }
+
+  .nav-bar__container > div:nth-child(1) {
+    order: 1;
+  }
+
+  .nav-bar__container > div:nth-child(2) {
+    order: 2;
+  }
+
+  .nav-bar__container > div:nth-child(4) {
+    order: 3;
+  }
+
+  .nav-bar__container > div:nth-child(3) {
+    order: 4;
+  }
+
+  .nav-bar__container > div p {
+    display: none;
+  }
+}
