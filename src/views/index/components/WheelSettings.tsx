@@ -1,41 +1,23 @@
 // WheelSettings.tsx
 import { wheelColorPalettes as colors } from "../../../data/wheelColorPalettes";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 
 // styles
 import "./WheelSettings.scss";
+import { useWheelContext } from "../../../context/WheelContextProvider";
 
-type WheelSettingsProps = {
-  onColorChange: (color: { colors: string[]; id: number }) => void;
-  onSlicesChange: (slices: string[]) => void;
-  onOrderChange: (order: boolean) => void;
-  onTitleChange: (title: string) => void;
-  colorPaletteId: number;
-  onShuffle: () => void;
-  slicesInput: string[];
-  titleInput: string;
-};
-
-export const WheelSettings = ({
-  colorPaletteId: initialColorPaletteId,
-  slicesInput: initialSlicesInput,
-  titleInput: initialTitleInput,
-  onSlicesChange,
-  onTitleChange,
-  onOrderChange,
-  onColorChange,
-  onShuffle,
-}: WheelSettingsProps) => {
-  const [colorPaletteId, setColorPaletteId] = useState(initialColorPaletteId);
-  const [slicesInput, setSlicesInput] = useState(initialSlicesInput);
-  const [titleInput, setTitleInput] = useState(initialTitleInput);
+export const WheelSettings = () => {
+  const {
+    handleUpdateSlices: onSlicesChange,
+    handleOrderSlices: onOrderChange,
+    handleChangeColor: onColorChange,
+    handleWheelTitle: onTitleChange,
+    handleShuffleSlices: onShuffle,
+    state: { wheelTitle: titleInput, wheelThemeId, slicesData: slicesInput },
+  } = useWheelContext();
+  const [colorPaletteId, setColorPaletteId] = useState(wheelThemeId);
   const [isOrderAtoZ, setIsOrderAtoZ] = useState(true);
   const [openPalettePicker, setOpenPalettePicker] = useState(false);
-
-  useEffect(() => {
-    setSlicesInput(initialSlicesInput);
-    setTitleInput(initialTitleInput);
-  }, [initialSlicesInput, initialTitleInput]);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const slices = e.target.value

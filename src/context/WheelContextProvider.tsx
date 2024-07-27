@@ -25,7 +25,9 @@ export const WheelProvider: React.FC<{ children: ReactNode }> = ({
   const [wheelThemeId, setWheelThemeId] = useState<number>(-1);
   const [isShowingWheelsList, setIsShowingWheelsList] =
     useState<boolean>(false);
-  const [savedSlices, setSavedSlices] = useState<TSavedSlices>({});
+  const [savedSlices, setSavedSlices] = useState<TSavedSlices>(
+    {} as TSavedSlices
+  );
 
   useEffect(() => {
     getLocalStorageData();
@@ -168,6 +170,10 @@ export const WheelProvider: React.FC<{ children: ReactNode }> = ({
     setIsWheelSpinning(!isWheelSpinning);
   };
 
+  const handleToggleShowWheelsList = () => {
+    setIsShowingWheelsList(!isShowingWheelsList);
+  };
+
   return (
     <WheelContext.Provider
       value={{
@@ -182,6 +188,7 @@ export const WheelProvider: React.FC<{ children: ReactNode }> = ({
           isShowingWheelsList,
           savedSlices,
         },
+        handleToggleShowWheelsList,
         handleToggleSpinningWheel,
         handleSelectASavedWheel,
         handleRemoveItemFromList,

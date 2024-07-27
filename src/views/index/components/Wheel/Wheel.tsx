@@ -1,27 +1,17 @@
+import { useWheelContext } from "../../../../context/WheelContextProvider";
 import { useEffect, useRef, useState } from "react";
-import { debounce } from "../../../../lib/debounce";
-import { Dialog } from "../Dialog";
 import { playTickSound } from "./playTickSound";
+import { Dialog } from "../Dialog";
 
 // styles
 import "./Wheel.scss";
 
-type WheelProps = {
-  onUpdateWheelSpinning: (isWheelSpinning: boolean) => void; // to prevent multiple spins or data updates during
-  onRemoveItem: (index: number) => void; // to remove the selected item from the wheel
-  isWheelSpinning: boolean; // to prevent multiple spins or data updates during
-  wheelColors: string[]; // the color palette iterates over its contents until all slices have a color
-  slicesData: string[]; // each item is a slice in the wheel
-};
-
-export const Wheel = (props: WheelProps) => {
+export const Wheel = () => {
   const {
-    isWheelSpinning = false,
-    onUpdateWheelSpinning,
-    wheelColors = [],
-    slicesData = [],
-    onRemoveItem,
-  } = props;
+    state: { isWheelSpinning, wheelColors, slicesData },
+    handleToggleSpinningWheel: onUpdateWheelSpinning,
+    handleRemoveItemFromList: onRemoveItem,
+  } = useWheelContext();
 
   const wheelContainer = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -222,7 +212,7 @@ export const Wheel = (props: WheelProps) => {
     }
 
     let numberOfSlices = slicesData.length;
-    onUpdateWheelSpinning(true);
+    onUpdateWheelSpinning();
     if (lastChosenItem >= 0 && removeChosenName) {
       const newNumberOfSlices = numberOfSlices - 1;
       drawChart(newNumberOfSlices);
@@ -271,7 +261,7 @@ export const Wheel = (props: WheelProps) => {
           console.log("remove item", selectedIndex);
           onRemoveItem(selectedIndex);
         }
-        onUpdateWheelSpinning(false);
+        onUpdateWheelSpinning();
         if (slicesData.length > 1 && slicesData[selectedIndex] !== undefined) {
           setLastChosenItem(selectedIndex);
 

@@ -1,21 +1,16 @@
-import { TSavedSlices, TSlice } from "../../../types";
+import { useWheelContext } from "../../../context/WheelContextProvider";
+import { TSlice } from "../../../types";
 import "./SavedWheels.scss";
-import React from "react";
 
-type SavedWheelsProps = {
-  onSelect: (selectedSlice: TSlice) => void;
-  onRemove: (id: string) => void;
-  slices: TSavedSlices;
-  onClose: () => void;
-};
+export const SavedWheels = () => {
+  const {
+    state: { savedSlices: slices },
+    handleToggleShowWheelsList: onClose,
+    handleSelectASavedWheel: onSelect,
+    handleRemoveWheel: onRemove,
+  } = useWheelContext();
 
-export const SavedWheels: React.FC<SavedWheelsProps> = ({
-  slices,
-  onClose,
-  onSelect,
-  onRemove,
-}) => {
-  const slicesList = Object.keys(slices);
+  const slicesList = Object.keys(slices) as any;
 
   return (
     <section className='slices-container'>
@@ -26,39 +21,42 @@ export const SavedWheels: React.FC<SavedWheelsProps> = ({
           </button>
         </div>
         <div>
-          {slicesList.map((slice) => (
-            <div
-              key={slice}
-              className='p-4 d-flex align-items-center justify-content-start gap-4 mb-2 rounded bg-gamma'
-            >
-              <h4 className='slice-title w-100 m-0'>{slices[slice].title}</h4>
-              <p className='flex-shrink-0 m-0'>
-                slices {slices[slice].slices.length}
-              </p>
-              <div className='d-flex align-items-center justify-content-start gap-2 flex-shrink-0'>
-                <button
-                  className='bg-epsilon p-1 flex-shrink-0'
-                  onClick={() =>
-                    onSelect({
-                      themeId: slices[slice].themeId,
-                      slices: slices[slice].slices,
-                      colors: slices[slice].colors,
-                      title: slices[slice].title,
-                      id: slice,
-                    })
-                  }
-                >
-                  Select
-                </button>
-                <button
-                  className='bg-danger p-1 flex-shrink-0'
-                  onClick={() => onRemove(slice)}
-                >
-                  Delete
-                </button>
+          {slicesList.map((slice: keyof typeof slices) => {
+            const currentSlice: TSlice = slices[slice];
+            return (
+              <div
+                key={slice}
+                className='p-4 d-flex align-items-center justify-content-start gap-4 mb-2 rounded bg-gamma'
+              >
+                <h4 className='slice-title w-100 m-0'>{currentSlice.title}</h4>
+                <p className='flex-shrink-0 m-0'>
+                  slices {currentSlice.slices.length}
+                </p>
+                <div className='d-flex align-items-center justify-content-start gap-2 flex-shrink-0'>
+                  <button
+                    className='bg-epsilon p-1 flex-shrink-0'
+                    onClick={() =>
+                      onSelect({
+                        themeId: currentSlice.themeId,
+                        slices: currentSlice.slices,
+                        colors: currentSlice.colors,
+                        title: currentSlice.title,
+                        id: slice,
+                      })
+                    }
+                  >
+                    Select
+                  </button>
+                  <button
+                    className='bg-danger p-1 flex-shrink-0'
+                    onClick={() => onRemove(slice)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
