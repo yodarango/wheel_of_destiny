@@ -1,20 +1,19 @@
+import { TSavedSlices, TSlice } from "../../../types";
+import "./SavedWheels.scss";
 import React from "react";
-import "./SlicesList.scss";
 
-type SlicesListProps = {
-  slices: { [key: string]: { title: string; slices: string[] } };
+type SavedWheelsProps = {
+  onSelect: (selectedSlice: TSlice) => void;
+  onRemove: (id: string) => void;
+  slices: TSavedSlices;
   onClose: () => void;
-  onSelect: (selectedSlice: {
-    slices: string[];
-    title: string;
-    id: string;
-  }) => void;
 };
 
-export const SlicesList: React.FC<SlicesListProps> = ({
+export const SavedWheels: React.FC<SavedWheelsProps> = ({
   slices,
   onClose,
   onSelect,
+  onRemove,
 }) => {
   const slicesList = Object.keys(slices);
 
@@ -23,7 +22,7 @@ export const SlicesList: React.FC<SlicesListProps> = ({
       <div className='p-4 bg-beta'>
         <div className='d-flex align-items-center justify-content-end mb-4'>
           <button className='bg-nu p-0 m-0' onClick={onClose}>
-            Close
+            <span className='icon icon-close-outline color-alpha' />
           </button>
         </div>
         <div>
@@ -38,16 +37,24 @@ export const SlicesList: React.FC<SlicesListProps> = ({
               </p>
               <div className='d-flex align-items-center justify-content-start gap-2 flex-shrink-0'>
                 <button
-                  className='btn primary p-1 flex-shrink-0'
+                  className='bg-epsilon p-1 flex-shrink-0'
                   onClick={() =>
                     onSelect({
+                      themeId: slices[slice].themeId,
                       slices: slices[slice].slices,
+                      colors: slices[slice].colors,
                       title: slices[slice].title,
                       id: slice,
                     })
                   }
                 >
                   Select
+                </button>
+                <button
+                  className='bg-danger p-1 flex-shrink-0'
+                  onClick={() => onRemove(slice)}
+                >
+                  Delete
                 </button>
               </div>
             </div>

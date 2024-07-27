@@ -34,27 +34,27 @@ export const Header: React.FC<HeaderProps> = ({
             {wheelStatus === WHEEL_STATUS_UNSAVED ? (
               <>
                 <button
-                  className='btn primary p-1 flex-shrink-0'
+                  className='bg-success p-1 flex-shrink-0'
                   onClick={onSave}
                 >
-                  <span className='icon icon-save-outline color-alpha'></span>
+                  <span className='icon icon-save-outline color-beta'></span>
                 </button>
                 <p className='white-space-nowrap'>Save</p>
               </>
             ) : wheelStatus === WHEEL_STATUS_SAVED ? (
               <>
                 <button
-                  className='btn primary p-1 flex-shrink-0 bg-danger'
+                  className='p-1 flex-shrink-0 bg-danger'
                   onClick={onRemove}
                 >
-                  <span className='icon icon-save-outline color-alpha'></span>
+                  <span className='icon icon-trash-outline color-alpha'></span>
                 </button>
                 <p className='white-space-nowrap'>Remove</p>
               </>
             ) : wheelStatus === WHEEL_STATUS_UPDATING ? (
               <>
                 <button
-                  className='btn primary p-1 flex-shrink-0'
+                  className=' p-1 flex-shrink-0 bg-zeta'
                   onClick={onUpdate}
                 >
                   <span className='icon icon-save-outline color-alpha'></span>
@@ -69,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
             id='nav-bar-33kl__wheels-saved'
           >
             <button
-              className='btn primary p-1 flex-shrink-0'
+              className='bg-zeta p-1 flex-shrink-0'
               onClick={onShowFolders}
             >
               <span className='icon icon-folder-outline color-alpha'></span>
@@ -87,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
           {showAddNew && (
             <div className='d-flex align-items-center justify-content-start gap-2'>
               <button
-                className='btn primary p-1 flex-shrink-0'
+                className='bg-zeta p-1 flex-shrink-0'
                 onClick={onCreateNew}
               >
                 <span className='icon icon-add-outline'></span>

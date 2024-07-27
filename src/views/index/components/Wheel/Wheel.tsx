@@ -8,6 +8,7 @@ import "./Wheel.scss";
 
 type WheelProps = {
   onUpdateWheelSpinning: (isWheelSpinning: boolean) => void; // to prevent multiple spins or data updates during
+  onRemoveItem: (index: number) => void; // to remove the selected item from the wheel
   isWheelSpinning: boolean; // to prevent multiple spins or data updates during
   wheelColors: string[]; // the color palette iterates over its contents until all slices have a color
   slicesData: string[]; // each item is a slice in the wheel
@@ -19,6 +20,7 @@ export const Wheel = (props: WheelProps) => {
     onUpdateWheelSpinning,
     wheelColors = [],
     slicesData = [],
+    onRemoveItem,
   } = props;
 
   const wheelContainer = useRef<HTMLDivElement>(null);
@@ -177,9 +179,9 @@ export const Wheel = (props: WheelProps) => {
 
   // resize the wheel based on the container size
   function resizeWheel() {
-    debounce(() => {
-      drawChart(slicesData.length);
-    });
+    // debounce(() => {
+    drawChart(slicesData.length);
+    // });
   }
 
   // resize the wheel on window resize
@@ -222,8 +224,8 @@ export const Wheel = (props: WheelProps) => {
     let numberOfSlices = slicesData.length;
     onUpdateWheelSpinning(true);
     if (lastChosenItem >= 0 && removeChosenName) {
-      slicesData.splice(lastChosenItem, 1);
-      drawChart(numberOfSlices);
+      const newNumberOfSlices = numberOfSlices - 1;
+      drawChart(newNumberOfSlices);
     }
 
     let startRotation = lastChosenItem * (360 / numberOfSlices) || 0;
@@ -263,6 +265,12 @@ export const Wheel = (props: WheelProps) => {
             slicesData.length -
               (currentRotation % 360) / (360 / slicesData.length)
           ) % slicesData.length;
+
+        if (removeChosenName) {
+          console.log("remove item", removeChosenName);
+          console.log("remove item", selectedIndex);
+          onRemoveItem(selectedIndex);
+        }
         onUpdateWheelSpinning(false);
         if (slicesData.length > 1 && slicesData[selectedIndex] !== undefined) {
           setLastChosenItem(selectedIndex);
@@ -314,7 +322,7 @@ export const Wheel = (props: WheelProps) => {
           <div
             id='wheel-of-destiny-33kl__canvas-tick'
             className='wheel-of-destiny-33kl__canvas-tick'
-          ></div>
+          />
         </div>
       </section>
     </>

@@ -81,15 +81,21 @@ export const WheelSettings = ({
                 className='d-flex align-items-center justify-content-start gap-2'
                 id='randomize-slices-shuffle-09jt'
               >
-                <button className='btn primary p-1' onClick={onShuffle}>
+                <button className='bg-zeta p-1' onClick={onShuffle}>
                   <span className='icon icon-shuffle-outline color-alpha'></span>
                 </button>
                 <p>Randomize</p>
               </div>
 
               <div className='d-flex align-items-center justify-content-start gap-2'>
-                <button className='btn primary p-1' onClick={handleOrderSlices}>
-                  <span className='icon icon-chevron-down-outline color-alpha'></span>
+                <button className='bg-zeta p-1' onClick={handleOrderSlices}>
+                  <span
+                    className={`icon ${
+                      isOrderAtoZ
+                        ? "icon-chevron-down-outline"
+                        : "icon-chevron-up-outline"
+                    } color-alpha`}
+                  ></span>
                 </button>
                 <p>{isOrderAtoZ ? "A to Z" : "Z to A"}</p>
               </div>
@@ -110,7 +116,7 @@ export const WheelSettings = ({
 
         <div className='colors-section'>
           <button
-            className=' d-flex align-items-center justify-content-start mb-2'
+            className='bg-zeta d-flex align-items-center justify-content-start mb-2'
             onClick={handleOpenPalettePicker}
           >
             <h4 className='fs-4 color-alpha w-100'>Choose a palette</h4>
