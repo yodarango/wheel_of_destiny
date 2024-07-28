@@ -4,6 +4,10 @@
   max-width: 50rem;
   width: 90%;
   z-index: 5;
+
+  &::backdrop {
+    background-color: rgba(var(--dr-delta-rgb), 0.25);
+  }
 }
 
 .dialog-33kl__close {

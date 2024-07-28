@@ -1,10 +1,10 @@
 // WheelSettings.tsx
 import { wheelColorPalettes as colors } from "../../../data/wheelColorPalettes";
+import { useWheelContext } from "../../../context/WheelContextProvider";
 import { useState, ChangeEvent } from "react";
 
 // styles
 import "./WheelSettings.scss";
-import { useWheelContext } from "../../../context/WheelContextProvider";
 
 export const WheelSettings = () => {
   const {

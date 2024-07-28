@@ -166,8 +166,8 @@ export const WheelContextProvider: React.FC<{ children: ReactNode }> = ({
     setSavedSlices(newSavedSlices);
   };
 
-  const handleToggleSpinningWheel = () => {
-    setIsWheelSpinning(!isWheelSpinning);
+  const handleToggleSpinningWheel = (value: boolean) => {
+    setIsWheelSpinning(value);
   };
 
   const handleToggleShowWheelsList = () => {

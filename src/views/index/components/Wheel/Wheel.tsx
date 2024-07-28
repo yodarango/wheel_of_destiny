@@ -10,6 +10,7 @@ export const Wheel = () => {
   const {
     state: { isWheelSpinning, wheelColors, slicesData },
     handleToggleSpinningWheel: onUpdateWheelSpinning,
+    handleUpdateSlices: onUpdateSlices,
     handleRemoveItemFromList: onRemoveItem,
   } = useWheelContext();
 
@@ -41,7 +42,7 @@ export const Wheel = () => {
 
     let start = 0;
     const totalValue = numberOfSlices * 100;
-    const fontSize = Math.max(10, canvas.current.height * 0.1 - data.length); // Adjust as needed
+    const fontSize = Math.max(10, canvas.current.height * 0.08 - data.length); // Adjust as needed
 
     let index = 0;
     for (let value of data) {
@@ -68,12 +69,12 @@ export const Wheel = () => {
       sliceColor: string
     ) {
       let angle = (startAngle + endAngle) / 2;
-      let textRadius = radius * 0.7; // Adjust as needed
+      let textRadius = radius * 0.6; // Adjust as needed
       let textX = x + Math.cos(angle) * textRadius;
       let textY = y + Math.sin(angle) * textRadius;
 
       // Calculate the available space in the slice
-      let arcLength = (endAngle - startAngle) * radius;
+      let arcLength = ((endAngle - startAngle) * radius) / 2;
 
       ctx.save();
       ctx.translate(textX, textY);
@@ -82,7 +83,7 @@ export const Wheel = () => {
       // Set the text color based on the background color
       ctx.fillStyle = isLight(sliceColor) ? "black" : "white";
 
-      ctx.font = `${fontSize - text.length * 1.2}px Arial`;
+      ctx.font = `${fontSize - text.length}px Arial`;
 
       // Measure how wide the text will be
       let textWidth = ctx.measureText(text).width;
@@ -213,9 +214,10 @@ export const Wheel = () => {
     }
 
     let numberOfSlices = slicesData.length;
-    onUpdateWheelSpinning();
+    onUpdateWheelSpinning(true);
     if (lastChosenItem >= 0 && removeChosenName) {
       const newNumberOfSlices = numberOfSlices - 1;
+      onUpdateSlices(slicesData.filter((_, index) => index !== lastChosenItem));
       drawChart(newNumberOfSlices);
     }
 
@@ -260,7 +262,7 @@ export const Wheel = () => {
         if (removeChosenName) {
           onRemoveItem(selectedIndex);
         }
-        onUpdateWheelSpinning();
+        onUpdateWheelSpinning(false);
         if (slicesData.length > 1 && slicesData[selectedIndex] !== undefined) {
           setLastChosenItem(selectedIndex);
 

@@ -4,7 +4,6 @@ import { SavedWheels } from "./components/SavedWheels";
 import React from "react";
 import { Wheel } from "./components/Wheel/Wheel";
 import { Header } from "./components/Header";
-import { useWheelContext } from "../../context/WheelContextProvider";
 
 export const Index: React.FC = () => {
   return (
