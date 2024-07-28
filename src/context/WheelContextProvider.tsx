@@ -8,7 +8,7 @@ const WHEEL_STATUS_UNSAVED = 1;
 const WHEEL_STATUS_SAVED = 2;
 const WHEEL_STATUS_UPDATING = 3;
 
-export const WheelProvider: React.FC<{ children: ReactNode }> = ({
+export const WheelContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [wheelStatus, setWheelStatus] = useState<number>(WHEEL_STATUS_UNSAVED);

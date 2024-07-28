@@ -9,10 +9,30 @@
   top: 0;
 }
 
+.saved-wheels-portal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--dr-delta-rgb), 0.2);
+  z-index: 4;
+}
+
 .slices-container > div {
   min-height: 100vh;
 }
 
 .slice-title {
-  text-transform: capitalize;
+  text-transform: uppercase;
+}
+
+.slices-container {
+  img {
+    max-width: 400px;
+    margin: auto;
+    display: block;
+    height: 100%;
+    width: 90%;
+  }
 }

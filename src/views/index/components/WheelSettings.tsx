@@ -20,9 +20,7 @@ export const WheelSettings = () => {
   const [openPalettePicker, setOpenPalettePicker] = useState(false);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const slices = e.target.value
-      .split(/\r?\n/)
-      .filter((line) => line.trim() !== "");
+    const slices = e.target.value.split(/\r?\n/);
     onSlicesChange(slices);
   };
 
@@ -91,8 +89,8 @@ export const WheelSettings = () => {
           </h4>
           <input
             className='border-tertiary border p-3 input rounded bg-beta d-block color-alpha w-100'
-            value={titleValue}
             onChange={handleTitleChange}
+            value={titleValue}
           />
         </div>
 

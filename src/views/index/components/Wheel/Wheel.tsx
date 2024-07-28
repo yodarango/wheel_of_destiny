@@ -15,7 +15,6 @@ export const Wheel = () => {
 
   const wheelContainer = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const ctx = canvas.current?.getContext("2d");
 
   const playTick = playTickSound;
 
@@ -140,9 +139,11 @@ export const Wheel = () => {
 
   // it wll be called every time the user updates any data
   const drawChart = (numberOfSlices: number) => {
-    if (!canvas.current || !ctx) return;
+    if (!canvas.current) return;
 
     if (!slicesData) return;
+
+    const ctx = canvas.current?.getContext("2d");
 
     // get the size of the container
     let containerSize = wheelContainer.current?.clientWidth;
@@ -157,7 +158,7 @@ export const Wheel = () => {
 
     setCanvasContainerStyles(containerSize);
 
-    ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+    ctx!.clearRect(0, 0, canvas.current.width, canvas.current.height);
     drawPieChart(
       canvas,
       slicesData,
@@ -189,7 +190,7 @@ export const Wheel = () => {
 
   // re-draw the chart every time the user updates the data
   useEffect(() => {
-    if (slicesData || wheelColors) {
+    if (slicesData && wheelColors) {
       drawChart(slicesData.length);
     }
   }, [slicesData, wheelColors, canvas.current]);
@@ -257,8 +258,6 @@ export const Wheel = () => {
           ) % slicesData.length;
 
         if (removeChosenName) {
-          console.log("remove item", removeChosenName);
-          console.log("remove item", selectedIndex);
           onRemoveItem(selectedIndex);
         }
         onUpdateWheelSpinning();

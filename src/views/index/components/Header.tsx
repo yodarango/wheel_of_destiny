@@ -79,8 +79,8 @@ export const Header = () => {
                 onClick={onCreateNew}
               >
                 <span className='icon icon-add-outline'></span>
-                <p className='white-space-nowrap'>Add new</p>
               </button>
+              <p className='white-space-nowrap'>Add new</p>
             </div>
           )}
         </div>

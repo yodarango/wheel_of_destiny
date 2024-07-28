@@ -41,6 +41,10 @@
   transition: transform 300ms ease;
 }
 
+input {
+  text-transform: uppercase;
+}
+
 @media (max-width: 800px) {
   .wheel-of-destiny-33kl__input_container {
     width: 100%;
