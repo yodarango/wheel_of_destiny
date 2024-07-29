@@ -40,7 +40,7 @@ export const Header = () => {
                 >
                   <span className='icon icon-trash-outline color-alpha'></span>
                 </button>
-                <p className='white-space-nowrap'>Remove</p>
+                <p className='white-space-nowrap'>Delete</p>
               </>
             ) : wheelStatus === WHEEL_STATUS_UPDATING ? (
               <>
@@ -75,7 +75,7 @@ export const Header = () => {
           {showAddNew && (
             <div className='d-flex align-items-center justify-content-start gap-2'>
               <button
-                className='bg-zeta p-1 flex-shrink-0'
+                className='bg-delta p-1 flex-shrink-0'
                 onClick={onCreateNew}
               >
                 <span className='icon icon-add-outline'></span>

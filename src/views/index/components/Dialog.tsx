@@ -42,7 +42,7 @@ export const Dialog: React.FC<DialogProps> = ({
         <button className='bg-danger color-alpha w-100' onClick={onCancel}>
           Delete & rotate
         </button>
-        <button className='bg-success color-primary w-100' onClick={onOk}>
+        <button className='bg-success color-beta w-100' onClick={onOk}>
           Keep & rotate
         </button>
       </div>
