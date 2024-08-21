@@ -21,8 +21,8 @@ export const SavedWheels = () => {
       <section className='slices-container'>
         <div className='p-4 bg-beta'>
           <div className='d-flex align-items-center justify-content-end mb-4'>
-            <button className='bg-nu p-0 m-0' onClick={onClose}>
-              <span className='icon icon-close-outline color-alpha' />
+            <button className='bg-nu p-0 m-0 color-alpha' onClick={onClose}>
+              <ion-icon name='close-outline' />
             </button>
           </div>
           <div>

@@ -61,21 +61,19 @@ export const WheelSettings = () => {
                 className='d-flex align-items-center justify-content-start gap-2'
                 id='randomize-slices-shuffle-09jt'
               >
-                <button className='bg-zeta p-1' onClick={onShuffle}>
-                  <span className='icon icon-shuffle-outline color-alpha'></span>
+                <button className='bg-zeta p-1 color-alpha' onClick={onShuffle}>
+                  <ion-icon name='shuffle-outline' />
                 </button>
                 <p>Randomize</p>
               </div>
 
               <div className='d-flex align-items-center justify-content-start gap-2'>
-                <button className='bg-zeta p-1' onClick={handleOrderSlices}>
-                  <span
-                    className={`icon ${
-                      isOrderAtoZ
-                        ? "icon-chevron-down-outline"
-                        : "icon-chevron-up-outline"
-                    } color-alpha`}
-                  ></span>
+                <button
+                  className='bg-zeta p-1 color-alpha'
+                  onClick={handleOrderSlices}
+                >
+                  {isOrderAtoZ && <ion-icon name='chevron-down-outline' />}
+                  {!isOrderAtoZ && <ion-icon name='chevron-up-outline' />}
                 </button>
                 <p>{isOrderAtoZ ? "A to Z" : "Z to A"}</p>
               </div>
@@ -96,15 +94,13 @@ export const WheelSettings = () => {
 
         <div className='colors-section'>
           <button
-            className='bg-zeta d-flex align-items-center justify-content-start mb-2'
+            className='bg-zeta d-flex align-items-center color-alpha justify-content-start mb-2'
             onClick={handleOpenPalettePicker}
           >
-            <h4 className='fs-4 color-alpha w-100'>Choose a palette</h4>
-            <span
-              className={`icon icon-chevron-forward-outline color-alpha ${
-                openPalettePicker ? "open-color-palette" : ""
-              }`}
-            ></span>
+            <b className='fs-4  w-100 '>Choose a palette</b>
+
+            {!openPalettePicker && <ion-icon name='chevron-forward-outline' />}
+            {openPalettePicker && <ion-icon name='chevron-down-outline' />}
           </button>
           {openPalettePicker && (
             <div className='pallete-container'>

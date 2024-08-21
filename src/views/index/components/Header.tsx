@@ -25,27 +25,30 @@ export const Header = () => {
             {wheelStatus === WHEEL_STATUS_UNSAVED ? (
               <>
                 <button
-                  className='bg-success p-1 flex-shrink-0'
+                  className='bg-success p-1 flex-shrink-0 color-beta'
                   onClick={onSave}
                 >
-                  <span className='icon icon-save-outline color-beta'></span>
+                  <ion-icon name='save-outline' />
                 </button>
                 <p className='white-space-nowrap'>Save</p>
               </>
             ) : wheelStatus === WHEEL_STATUS_SAVED ? (
               <>
                 <button
-                  className='p-1 flex-shrink-0 bg-danger'
+                  className='p-1 flex-shrink-0 bg-danger color-alpha'
                   onClick={() => onRemove(currentWheelId)}
                 >
-                  <span className='icon icon-trash-outline color-alpha'></span>
+                  <ion-icon name='trash-outline' />
                 </button>
                 <p className='white-space-nowrap'>Delete</p>
               </>
             ) : wheelStatus === WHEEL_STATUS_UPDATING ? (
               <>
-                <button className=' p-1 flex-shrink-0 bg-zeta' onClick={onSave}>
-                  <span className='icon icon-save-outline color-alpha'></span>
+                <button
+                  className=' p-1 flex-shrink-0 bg-zeta color-alpha'
+                  onClick={onSave}
+                >
+                  <ion-icon name='save-outline' />
                 </button>
                 <p className='white-space-nowrap'>Save changes</p>
               </>
@@ -57,10 +60,10 @@ export const Header = () => {
             id='nav-bar-33kl__wheels-saved'
           >
             <button
-              className='bg-zeta p-1 flex-shrink-0'
+              className='bg-zeta p-1 flex-shrink-0 color-alpha'
               onClick={onShowFolders}
             >
-              <span className='icon icon-folder-outline color-alpha'></span>
+              <ion-icon name='folder-outline' />
             </button>
             <p className='white-space-nowrap'>My wheels</p>
           </div>
@@ -78,7 +81,7 @@ export const Header = () => {
                 className='bg-delta p-1 flex-shrink-0'
                 onClick={onCreateNew}
               >
-                <span className='icon icon-add-outline'></span>
+                <ion-icon name='add-outline' />
               </button>
               <p className='white-space-nowrap'>Add new</p>
             </div>

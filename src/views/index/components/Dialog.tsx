@@ -31,10 +31,10 @@ export const Dialog: React.FC<DialogProps> = ({
   return (
     <dialog className='wheel-of-destiny-33kl__dialog border-0 rounded bg-gamma'>
       <button
-        className='dialog-33kl__close bg-nu btn-icon p-0 mb-2 position-relative d-block'
+        className='color-alpha dialog-33kl__close bg-nu btn-icon p-0 mb-2 position-relative d-block'
         onClick={onClose}
       >
-        <span className='icon icon-close-outline color-alpha'></span>
+        <ion-icon name='close-outline' />
       </button>
       <h2 className='mb-4 color-alpha text-center'>{title}</h2>
       <p className='mb-4 color-alpha text-center'>{message}</p>
