@@ -11,7 +11,6 @@ export const Wheel = () => {
     state: { isWheelSpinning, wheelColors, slicesData },
     handleToggleSpinningWheel: onUpdateWheelSpinning,
     handleUpdateSlices: onUpdateSlices,
-    handleRemoveItemFromList: onRemoveItem,
   } = useWheelContext();
 
   const wheelContainer = useRef<HTMLDivElement>(null);

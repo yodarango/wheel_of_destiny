@@ -141,13 +141,6 @@ export const WheelContextProvider: React.FC<{ children: ReactNode }> = ({
     handleUpdateWheelStatus(currentWheelId);
   };
 
-  const handleRemoveItemFromList = (index: number) => {
-    const newSlices = slicesData.filter((_, i) => i !== index);
-    handleUpdateSlices(newSlices);
-    // setSlicesData(newSlices);
-    // handleUpdateWheelStatus(currentWheelId);
-  };
-
   const handleRemoveWheel = (id: string) => {
     const wheelsSaved = localStorage.getItem("wod__wheels-saved");
     if (wheelsSaved) {
@@ -192,7 +185,6 @@ export const WheelContextProvider: React.FC<{ children: ReactNode }> = ({
         handleToggleShowWheelsList,
         handleToggleSpinningWheel,
         handleSelectASavedWheel,
-        handleRemoveItemFromList,
         handleCreateNewWheel,
         handleShuffleSlices,
         handleUpdateSlices,

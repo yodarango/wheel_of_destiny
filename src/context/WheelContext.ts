@@ -35,7 +35,6 @@ export type TWheelContext = {
   };
   handleChangeColor: (data: { colors: string[]; id: number }) => {};
   handleOrderSlices: (isOrderAtoZ: boolean) => {};
-  handleRemoveItemFromList: (index: number) => {};
   handleToggleSpinningWheel: (val: boolean) => {};
   handleSelectASavedWheel: (slice: TSlice) => {};
   handleUpdateSlices: (slices: string[]) => {};
@@ -51,7 +50,6 @@ export const defaultContext = {
   state: defaultState,
   handleChangeColor: (_: { colors: string[]; id: number }) => {},
   handleToggleSpinningWheel: (_: boolean) => {},
-  handleRemoveItemFromList: (_: number) => {},
   handleSelectASavedWheel: (_: TSlice) => {},
   handleUpdateSlices: (_: string[]) => {},
   handleOrderSlices: (_: boolean) => {},
