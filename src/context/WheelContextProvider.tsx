@@ -143,8 +143,9 @@ export const WheelContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const handleRemoveItemFromList = (index: number) => {
     const newSlices = slicesData.filter((_, i) => i !== index);
-    setSlicesData(newSlices);
-    handleUpdateWheelStatus(currentWheelId);
+    handleUpdateSlices(newSlices);
+    // setSlicesData(newSlices);
+    // handleUpdateWheelStatus(currentWheelId);
   };
 
   const handleRemoveWheel = (id: string) => {

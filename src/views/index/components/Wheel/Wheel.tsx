@@ -198,11 +198,12 @@ export const Wheel = () => {
   }, [slicesData, wheelColors, canvas.current]);
 
   // the last slice item in the wheel
-  const [lastChosenItem, setLastChosenItem] = useState(-1);
+  const [lastChosenItem, setLastChosenItem] = useState("");
 
   // spin the wheel
   function spinWheel(removeChosenName = false) {
-    if (slicesData.length === 1) location.reload();
+    const newSlicesData = slicesData.filter((item) => item !== lastChosenItem);
+    if (newSlicesData.length === 1) location.reload();
 
     setDialogData({ ...dialogData, show: false });
 
@@ -214,15 +215,18 @@ export const Wheel = () => {
       return;
     }
 
-    let numberOfSlices = slicesData.length;
+    let numberOfSlices = newSlicesData.length;
+    // remove the chosen item from the list but only if it is not the first spin
     onUpdateWheelSpinning(true);
-    if (lastChosenItem >= 0 && removeChosenName) {
+    if (!!lastChosenItem && removeChosenName) {
       const newNumberOfSlices = numberOfSlices - 1;
-      onUpdateSlices(slicesData.filter((_, index) => index !== lastChosenItem));
+      onUpdateSlices(newSlicesData.filter((item) => item !== lastChosenItem));
       drawChart(newNumberOfSlices);
     }
 
-    let startRotation = lastChosenItem * (360 / numberOfSlices) || 0;
+    const indexOfLastChosenItem = newSlicesData.indexOf(lastChosenItem);
+
+    let startRotation = indexOfLastChosenItem * (360 / numberOfSlices) || 0;
     let endRotation = startRotation + 5 * 360 + Math.floor(Math.random() * 360);
     let duration = 7000;
     let previousRotation = 0;
@@ -243,7 +247,7 @@ export const Wheel = () => {
       if (
         Math.floor(currentRotation / tickInterval) >
           Math.floor(previousRotation / tickInterval) &&
-        slicesData.length > 1
+        newSlicesData.length > 1
       ) {
         playTick();
       }
@@ -251,24 +255,27 @@ export const Wheel = () => {
 
       canvas.current.style.transform = `rotate(${currentRotation}deg)`;
 
-      if (timeElapsed < duration && slicesData.length > 1) {
+      if (timeElapsed < duration && newSlicesData.length > 1) {
         requestAnimationFrame(rotate);
       } else {
         let selectedIndex =
           Math.floor(
-            slicesData.length -
-              (currentRotation % 360) / (360 / slicesData.length)
-          ) % slicesData.length;
+            newSlicesData.length -
+              (currentRotation % 360) / (360 / newSlicesData.length)
+          ) % newSlicesData.length;
 
-        if (removeChosenName) {
-          onRemoveItem(selectedIndex);
-        }
+        // if (removeChosenName) {
+        //   onRemoveItem(selectedIndex);
+        // }
         onUpdateWheelSpinning(false);
-        if (slicesData.length > 1 && slicesData[selectedIndex] !== undefined) {
-          setLastChosenItem(selectedIndex);
+        if (
+          newSlicesData.length > 1 &&
+          newSlicesData[selectedIndex] !== undefined
+        ) {
+          setLastChosenItem(newSlicesData[selectedIndex]);
 
           setDialogData({
-            title: `Congratulations ${slicesData[selectedIndex]}`,
+            title: `Congratulations ${newSlicesData[selectedIndex]}`,
             message: `Destiny has called your name`,
             show: true,
           });
